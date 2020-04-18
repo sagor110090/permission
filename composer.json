@@ -1,0 +1,42 @@
+{
+    "name": "sagor110090/permission",
+    "license": "MIT",
+    "description": "Laravel Permission Managar",
+    "keywords": [
+        "laravel",
+        "Permission",
+        "Role base permission",
+        "Laravel Permission Managar",
+        "User Permission"
+    ],
+    "authors": [
+        {
+            "name": "Mehedi Hasan Sagor",
+            "email": "mehedihasansagor.cse@gmail.com",
+            "homepage": "http://www.sagor.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.4|>=7.0",
+        "illuminate/support": "^5.3|^6.0",
+        "laravelcollective/html": "^5.3|^6.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^0.9.6",
+        "phpunit/phpunit": "^5.7",
+        "orchestra/testbench": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sagor110090\\Permission\\": "src/"
+        }
+        
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sagor110090\\Permission\\PermissionServiceProvider"
+            ]
+        }
+    }
+}
