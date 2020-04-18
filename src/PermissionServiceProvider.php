@@ -1,8 +1,9 @@
 <?php
 
-namespace sagor110090\Permission;
+namespace Sagor110090\Permission;
 
 use Illuminate\Support\ServiceProvider;
+use Sagor110090\Permission\IsAdmin;
 
 class PermissionServiceProvider extends ServiceProvider
 {
@@ -14,8 +15,16 @@ class PermissionServiceProvider extends ServiceProvider
     public function register()
     {
         include __DIR__.'/routes.php';
-    }
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->loadViewsFrom(__DIR__.'/views', 'permission');
+        $this->registerMiddleware();
 
+    }
+    protected function registerMiddleware()
+    {
+        /** @var Kernel|\Illuminate\Foundation\Http\Kernel $kernel */
+        $this->app['router']->aliasMiddleware('isAdmin', IsAdmin::class);
+    }
     /**
      * Bootstrap services.
      *
@@ -23,6 +32,8 @@ class PermissionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->make('Sagor110090\Permission\UserController');
+        $this->app->make('Sagor110090\Permission\RoleController');
+        
     }
 }
