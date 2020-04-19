@@ -19,7 +19,15 @@
                     <br />
                     <br />
 
-
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                     <form method="POST" action="{{ url('/admin/user') }}" accept-charset="UTF-8"
                         class="form-horizontal needs-validation" novalidate=""  enctype="multipart/form-data">
                         {{ csrf_field() }}

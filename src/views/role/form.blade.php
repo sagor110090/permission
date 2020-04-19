@@ -1,13 +1,14 @@
-<div class="form-group">
+<div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
     <label for="name" class="control-label">{{ __('Name') }}</label>
     <input class="form-control" name="name" type="text" id="name" value="{{ isset($role->name) ? $role->name : old('name')}}" required>
+    {!! $errors->first('name', '<p class="text-danger">:message</p>') !!}
     <div class="invalid-feedback"> What's your name?</div>
 </div>
 @php
 isset($role->permission) ? $permission = json_decode($role->permission) : $permission = ['nothing'];
         
 @endphp
-<div class="form-group">
+<div class="form-group {{ $errors->has('permission') ? 'has-error' : ''}}">
     <label for="permission" class="control-label">{{ __('Permission') }}</label>
     @foreach (DB::table('permissions')->get() as $item)
         <div class="custom-control custom-checkbox">
@@ -15,6 +16,7 @@ isset($role->permission) ? $permission = json_decode($role->permission) : $permi
         <label class="custom-control-label" for="{{$loop->iteration}}">{{$item->name}}</label>
         </div>
     @endforeach
+    {!! $errors->first('permission', '<p class="text-danger">:message</p>') !!}
     <div class="invalid-feedback"> What's your permission?</div>
 </div>
 

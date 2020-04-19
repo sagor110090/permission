@@ -9,7 +9,7 @@ use Sagor110090\Permission\Role;
 use Illuminate\Http\Request;
 use Session;
 use Illuminate\Support\Facades\Hash;
-
+use Auth;
 
 class UserController extends Controller
 {
@@ -20,7 +20,8 @@ class UserController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $user = User::where('name', 'LIKE', "%$keyword%")
+            $user = User::where('fname', 'LIKE', "%$keyword%")
+                ->orWhere('lname', 'LIKE', "%$keyword%")
                 ->orWhere('email', 'LIKE', "%$keyword%")
                 ->orWhere('password', 'LIKE', "%$keyword%")
                 ->orWhere('permission', 'LIKE', "%$keyword%")
@@ -42,9 +43,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			'name' => 'required',
+			'fname' => 'required',
+			'lname' => 'required',
 			'email' => 'required|unique:users',
-			'password' => 'required'
+			'password' => 'required|min:8'
 		]);
         $requestData = $request->all();
         $requestData['password'] = Hash::make($request->password);
@@ -75,12 +77,15 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			'name' => 'required',
+			'fname' => 'required',
+			'lname' => 'required',
 			// 'email' => 'required',
-			// 'password' => 'required'
+            'password' => 'min:8'
 		]);
         $requestData = $request->all();
-        
+        if (User::find($id)->role == 'super-admin') {
+            Session::flash('error','Permission Denied!'); return redirect()->back();
+        }
         $user = User::findOrFail($id);
         $requestData['password'] = Hash::make($request->password);
         $permission = Role::find($request->permission);
@@ -94,6 +99,9 @@ class UserController extends Controller
 
     public function destroy($id)
     {
+        if (User::find($id)->role == 'super-admin') {
+            Session::flash('error','Permission Denied!'); return redirect()->back();
+        }
         User::destroy($id);
         Session::flash('success','Successfully Deleted!');
         return redirect('admin/user');
