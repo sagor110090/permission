@@ -83,7 +83,7 @@ class UserController extends Controller
             'password' => 'min:8'
 		]);
         $requestData = $request->all();
-        if (User::find($id)->role == 'super-admin') {
+        if (User::find($id)->role == 'Super Admin') {
             Session::flash('error','Permission Denied!'); return redirect()->back();
         }
         $user = User::findOrFail($id);
@@ -99,7 +99,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        if (User::find($id)->role == 'super-admin') {
+        if (User::find($id)->role == 'Super Admin') {
             Session::flash('error','Permission Denied!'); return redirect()->back();
         }
         User::destroy($id);

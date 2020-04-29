@@ -42,7 +42,7 @@ class RoleController extends Controller
         $this->validate($request, [
 			'name' => 'required|unique:roles'
         ]);
-        if ($request->name != 'super-admin') {
+        if ($request->name != 'Super Admin') {
             $role = new Role; 
             $role->name = $request->name;
             $role->slug = Str::slug($request->name);
@@ -51,7 +51,7 @@ class RoleController extends Controller
             Session::flash('success','Successfully Saved!');
             return redirect('admin/role');
         }
-        Session::flash('error','super-admin cannot role name!');
+        Session::flash('error','Super Admin cannot role name!');
         return redirect('admin/role');
         
     }
@@ -78,7 +78,7 @@ class RoleController extends Controller
 			'name' => 'required'
 		]);
         $requestData = $request->all();
-        if ($request->name != 'super-admin') {
+        
             $role = Role::findOrFail($id);
             $role->name = $request->name;
             $role->slug = Str::slug($request->name);
@@ -90,16 +90,19 @@ class RoleController extends Controller
             }
             Session::flash('success','Successfully Updated!');
             return redirect('admin/role');
-        }
-        Session::flash('error','super-admin cannot role name!');
-        return redirect('admin/role');
+        
     }
 
 
-    public function destroy($id)
+    public function destroy($id,Request $request)
     {
-        Role::destroy($id);
-        Session::flash('success','Successfully Deleted!');
+        // dd();
+        if (Role::find($id)->name != 'Super Admin') {
+            Role::destroy($id);
+            Session::flash('success','Successfully Deleted!');
+            return redirect('admin/role');
+        }
+        Session::flash('error','Super Admin cannot Delete!');
         return redirect('admin/role');
     }
 }
