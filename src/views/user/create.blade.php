@@ -14,7 +14,7 @@
 
                 <div class="card-body">
                     <a href="{{ url('/admin/user') }}" title="Back"><button
-                            class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>{{ __('Back') }}
+                            class="btn btn-warning btn-sm"><i class="feather-16" data-feather="arrow-left"></i>{{ __('Back') }}
                             </button></a>
                     <br />
                     <br />

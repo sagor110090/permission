@@ -51,7 +51,7 @@
                                 $permission = json_decode($item->permission);
                                 if ($permission!=null) {
                                     foreach ($permission as $key => $value) {
-                                        echo "$value, ";
+                                        echo "$value,<br> ";
                                     }
                                 }
                             @endphp </td>

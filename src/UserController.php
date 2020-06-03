@@ -50,6 +50,7 @@ class UserController extends Controller
 		]);
         $requestData = $request->all();
         $requestData['password'] = Hash::make($request->password);
+        // dd($request->permission);
         $permission = Role::find($request->permission);
         $requestData['role'] = $permission->name;
         $requestData['permission'] = $permission->permission;

@@ -27,7 +27,7 @@
     <label for="permission" class="control-label">{{ __('Permission') }}</label>
     <select class="form-control selectric" name="permission">
         @foreach (\Sagor110090\Permission\Role::all() as $item)
-            <option value="{{$item->role}}"
+            <option value="{{$item->id}}"
                 @if(isset($user->role))
                     @if($user->role == $item->name)  selected @endif
                 @endif>

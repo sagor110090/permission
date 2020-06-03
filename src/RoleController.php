@@ -78,7 +78,18 @@ class RoleController extends Controller
 			'name' => 'required'
 		]);
         $requestData = $request->all();
-        
+        if ($request->name == 'Super Admin') {
+            $role = Role::findOrFail($id);
+            // $role->name = $request->name;
+            $role->slug = Str::slug($request->name);
+            $role->permission = json_encode($request->permission); 
+            $role->save();
+            $user = User::where('role',$request->name)->get();
+            foreach ($user as $key => $value) {
+                    $value->update(['permission' => json_encode($request->permission)]);
+            }
+
+        }else{
             $role = Role::findOrFail($id);
             $role->name = $request->name;
             $role->slug = Str::slug($request->name);
@@ -88,9 +99,10 @@ class RoleController extends Controller
             foreach ($user as $key => $value) {
                     $value->update(['permission' => json_encode($request->permission)]);
             }
-            Session::flash('success','Successfully Updated!');
-            return redirect('admin/role');
-        
+        }
+        Session::flash('success','Successfully Updated!');
+        return redirect('admin/role');
+      
     }
 
 
